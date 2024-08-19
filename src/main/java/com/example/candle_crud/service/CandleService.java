@@ -50,7 +50,7 @@ public class CandleService {
     public Candle patch(Candle candle, UUID id) {
         Optional<Candle> originalCandle = candleRepository.findById(id);
         if (originalCandle.isEmpty()) {
-            throw new CandleNotFoundException("A candle with id: " + id + "was not found.");
+            throw new CandleNotFoundException("A candle with id: " + id + " was not found.");
         }
         Candle updatedCandle = originalCandle.get();
         if (candle.getName() != null) {

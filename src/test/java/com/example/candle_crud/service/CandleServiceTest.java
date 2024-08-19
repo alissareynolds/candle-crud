@@ -86,4 +86,30 @@ class CandleServiceTest {
         CandleNotFoundException exception = assertThrows(CandleNotFoundException.class, () -> candleService.update(input, id));
         assertEquals("A candle with id: " + id + " was not found.", exception.getMessage());
     }
+
+    @Test
+    public void patch_throwsExceptionWhenCandleWasNotFound() {
+        Mockito.when(mockCandleRepository.findById(id)).thenReturn(Optional.empty());
+        CandleNotFoundException exception = assertThrows(CandleNotFoundException.class, () -> candleService.patch(input, id));
+        assertEquals("A candle with id: " + id + " was not found.", exception.getMessage());
+    }
+
+    @Test
+    public void patch_shouldReturnUpdatedName() {
+        // "Winter Candy Apple", "apple, pear, orange", "soy", "cotton", 3, 14, 40, BURNED, false);
+        Candle input = new Candle();
+        input.setName("Apple");
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Candle response = candleService.patch(input, recordWithId.getId());
+        assertEquals("Apple", response.getName());
+        assertEquals("apple, pear, orange", response.getScent());
+        assertEquals("soy", response.getType());
+        assertEquals("cotton", response.getWickType());
+        assertEquals(3, response.getNumberOfWicks());
+        assertEquals(14, response.getNumberOfOunces());
+        assertEquals(40, response.getHoursOfBurnTime());
+        assertEquals(BURNED, response.getState());
+        assertEquals(false, response.getIsFavorite());
+    }
 }
