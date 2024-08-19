@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,5 +61,13 @@ public class CandleControllerIntegrationTest {
         mvc.perform(MockMvcRequestBuilders
                 .get("/api/candles/59c47568-fde0-4dd7-9aef-03db6a962810").accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk());
+    }
+
+    @Test
+    public void getCandleByName() throws Exception {
+        Mockito.when(mockCandleService.getByName("Winter Candy Apple")).thenReturn(List.of(new Candle()));
+        mvc.perform(MockMvcRequestBuilders
+                .get("/api/candles/name/Winter Candy Apple").accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
     }
 }
