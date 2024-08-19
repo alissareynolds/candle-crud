@@ -45,4 +45,11 @@ public class CandleControllerIntegrationTest {
             throw new RuntimeException();
         }
     }
+
+    @Test
+    public void getAllCandles() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                .get("/api/candles").accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isOk());
+    }
 }
