@@ -70,6 +70,14 @@ class CandleControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    @Test
+    public void getCandleByName_shouldReturnListOfCandlesAndOKHttpStatus() {
+        Mockito.when(mockCandleService.getByName(recordWithId.getName())).thenReturn(List.of(recordWithId));
+        ResponseEntity<List<Candle>> response = candleController.getCandleByName(recordWithId.getName());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(List.of(recordWithId), response.getBody());
+    }
+
 
 
 
