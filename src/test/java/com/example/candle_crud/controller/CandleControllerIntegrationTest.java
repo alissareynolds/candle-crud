@@ -92,4 +92,15 @@ public class CandleControllerIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void deleteCandle() throws Exception {
+        Mockito.when(mockCandleService.getById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(candle);
+        mvc.perform( MockMvcRequestBuilders
+                        .delete("/api/candles/59c47568-fde0-4dd7-9aef-03db6a962810")
+                        .content(asJsonString(candle))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 }
