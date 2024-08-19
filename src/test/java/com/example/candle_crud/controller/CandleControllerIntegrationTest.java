@@ -5,6 +5,7 @@ import com.example.candle_crud.models.CandleState;
 import com.example.candle_crud.service.CandleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,6 +51,14 @@ public class CandleControllerIntegrationTest {
     public void getAllCandles() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                 .get("/api/candles").accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isOk());
+    }
+
+    @Test
+    public void getCandleById() throws Exception {
+        Mockito.when(mockCandleService.getById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(new Candle());
+        mvc.perform(MockMvcRequestBuilders
+                .get("/api/candles/59c47568-fde0-4dd7-9aef-03db6a962810").accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk());
     }
 }
