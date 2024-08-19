@@ -78,6 +78,41 @@ class CandleControllerTest {
         assertEquals(List.of(recordWithId), response.getBody());
     }
 
+    @Test
+    public void updateCandle_shouldReturnCandleAndOKHttpStatus() {
+        Mockito.when(mockCandleService.update(input2, recordWithId.getId())).thenReturn(recordWithId2);
+        ResponseEntity<Candle> response = candleController.updateCandle(input2, recordWithId.getId());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(recordWithId2, response.getBody());
+    }
+
+    @Test
+    public void updateCandle_shouldReturn404WhenBookNotFound() {
+        Mockito.when(mockCandleService.update(input, id)).thenThrow(new CandleNotFoundException("A candle with id: " + id + " was not found."));
+        ResponseEntity<Candle> response = candleController.updateCandle(input, id);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void patchCandle_shouldReturnCandleAndOKHttpStatus() {
+        Mockito.when(mockCandleService.patch(input2, recordWithId.getId())).thenReturn(recordWithId2);
+        ResponseEntity<Candle> response = candleController.patchCandle(input2, recordWithId.getId());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(recordWithId2, response.getBody());
+    }
+    @Test
+    public void patchCandle_shouldReturn404WhenCandleNotFound() {
+        Mockito.when(mockCandleService.patch(input, id)).thenThrow(new CandleNotFoundException("A candle with id: " + id + " was not found."));
+        ResponseEntity<Candle> response = candleController.patchCandle(input, id);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void deleteCandle_shouldReturnOKHttpStatus() {
+        ResponseEntity<Candle> response = candleController.deleteCandle(recordWithId.getId());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
 
 
 
