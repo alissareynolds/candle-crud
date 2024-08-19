@@ -43,8 +43,8 @@ public class CandleService {
         if (originalCandle.isEmpty()) {
             throw new CandleNotFoundException("A candle with id: " + id + " was not found.");
         }
-        Candle updatedCandle = new Candle(id, candle.getName(), candle.getScent(), candle.getType(), candle.getWickType(), candle.getNumberOfWicks(), candle.getNumberOfOunces(), candle.getHoursOfBurnTime(), candle.getState(), candle.getIsFavorite());
-        return candleRepository.save(updatedCandle);
+        candle.setId(id);
+        return candleRepository.save(candle);
     }
 
     public Candle patch(Candle candle, UUID id) {
