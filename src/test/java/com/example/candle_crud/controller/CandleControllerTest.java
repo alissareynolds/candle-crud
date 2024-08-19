@@ -1,5 +1,6 @@
 package com.example.candle_crud.controller;
 
+import com.example.candle_crud.exception.CandleNotFoundException;
 import com.example.candle_crud.models.Candle;
 import com.example.candle_crud.models.CandleState;
 import com.example.candle_crud.service.CandleService;
@@ -43,6 +44,31 @@ class CandleControllerTest {
         assertEquals(recordWithId, response.getBody());
     }
 
+    @Test
+    public void getAllCandles_shouldReturnListOfCandlesAndOKHttpStatus() {
+        List<Candle> candles = new ArrayList<>();
+        candles.add(input);
+        candles.add(input2);
+        Mockito.when(mockCandleService.getAllCandles()).thenReturn(candles);
+        ResponseEntity<List<Candle>> response = candleController.getAllCandles();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(candles, response.getBody());
+    }
+
+    @Test
+    public void getCandleById_shouldReturnCandleAndOKHttpStatus() {
+        Mockito.when(mockCandleService.getById(recordWithId.getId())).thenReturn(recordWithId);
+        ResponseEntity<Candle> response = candleController.getCandleById(recordWithId.getId());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(recordWithId, response.getBody());
+    }
+
+    @Test
+    public void getCandleById_shouldReturn404WhenCandleNotFound() {
+        Mockito.when(mockCandleService.getById(id)).thenThrow(new CandleNotFoundException("A candle with id: " + id + " was not found."));
+        ResponseEntity<Candle> response = candleController.getCandleById(id);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
 
 
 
