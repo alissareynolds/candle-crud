@@ -72,4 +72,18 @@ class CandleServiceTest {
         assertEquals(List.of(recordWithId), response);
     }
 
+    @Test
+    public void update_shouldReturnUpdatedCandle() {
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenReturn(recordWithId);
+        Candle response = candleService.update(input2, recordWithId.getId());
+        assertEquals(recordWithId, response);
+    }
+
+    @Test
+    public void update_throwsExceptionWhenCandleWasNotFound() {
+        Mockito.when(mockCandleRepository.findById(id)).thenReturn(Optional.empty());
+        CandleNotFoundException exception = assertThrows(CandleNotFoundException.class, () -> candleService.update(input, id));
+        assertEquals("A candle with id: " + id + " was not found.", exception.getMessage());
+    }
 }
