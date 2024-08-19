@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.candle_crud.models.CandleState.BURNED;
-import static com.example.candle_crud.models.CandleState.EMPTY;
+import static com.example.candle_crud.models.CandleState.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CandleServiceTest {
@@ -96,7 +95,6 @@ class CandleServiceTest {
 
     @Test
     public void patch_shouldReturnUpdatedName() {
-        // "Winter Candy Apple", "apple, pear, orange", "soy", "cotton", 3, 14, 40, BURNED, false);
         Candle input = new Candle();
         input.setName("Apple");
         Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
@@ -112,4 +110,156 @@ class CandleServiceTest {
         assertEquals(BURNED, response.getState());
         assertEquals(false, response.getIsFavorite());
     }
+
+    @Test
+    public void patch_shouldReturnUpdatedScent() {
+        Candle input = new Candle();
+        input.setScent("apple");
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Candle response = candleService.patch(input, recordWithId.getId());
+        assertEquals("Winter Candy Apple", response.getName());
+        assertEquals("apple", response.getScent());
+        assertEquals("soy", response.getType());
+        assertEquals("cotton", response.getWickType());
+        assertEquals(3, response.getNumberOfWicks());
+        assertEquals(14, response.getNumberOfOunces());
+        assertEquals(40, response.getHoursOfBurnTime());
+        assertEquals(BURNED, response.getState());
+        assertEquals(false, response.getIsFavorite());
+    }
+
+
+    @Test
+    public void patch_shouldReturnUpdatedType() {
+        Candle input = new Candle();
+        input.setType("wax");
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Candle response = candleService.patch(input, recordWithId.getId());
+        assertEquals("Winter Candy Apple", response.getName());
+        assertEquals("apple, pear, orange", response.getScent());
+        assertEquals("wax", response.getType());
+        assertEquals("cotton", response.getWickType());
+        assertEquals(3, response.getNumberOfWicks());
+        assertEquals(14, response.getNumberOfOunces());
+        assertEquals(40, response.getHoursOfBurnTime());
+        assertEquals(BURNED, response.getState());
+        assertEquals(false, response.getIsFavorite());
+    }
+
+    @Test
+    public void patch_shouldReturnUpdatedWickType() {
+        Candle input = new Candle();
+        input.setWickType("wood");
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Candle response = candleService.patch(input, recordWithId.getId());
+        assertEquals("Winter Candy Apple", response.getName());
+        assertEquals("apple, pear, orange", response.getScent());
+        assertEquals("soy", response.getType());
+        assertEquals("wood", response.getWickType());
+        assertEquals(3, response.getNumberOfWicks());
+        assertEquals(14, response.getNumberOfOunces());
+        assertEquals(40, response.getHoursOfBurnTime());
+        assertEquals(BURNED, response.getState());
+        assertEquals(false, response.getIsFavorite());
+    }
+
+    @Test
+    public void patch_shouldReturnUpdatedNumberOfWicks() {
+        Candle input = new Candle();
+        input.setNumberOfWicks(1);
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Candle response = candleService.patch(input, recordWithId.getId());
+        assertEquals("Winter Candy Apple", response.getName());
+        assertEquals("apple, pear, orange", response.getScent());
+        assertEquals("soy", response.getType());
+        assertEquals("cotton", response.getWickType());
+        assertEquals(1, response.getNumberOfWicks());
+        assertEquals(14, response.getNumberOfOunces());
+        assertEquals(40, response.getHoursOfBurnTime());
+        assertEquals(BURNED, response.getState());
+        assertEquals(false, response.getIsFavorite());
+    }
+
+    @Test
+    public void patch_shouldReturnUpdatedNumberOfOunces() {
+        Candle input = new Candle();
+        input.setNumberOfOunces(16);
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Candle response = candleService.patch(input, recordWithId.getId());
+        assertEquals("Winter Candy Apple", response.getName());
+        assertEquals("apple, pear, orange", response.getScent());
+        assertEquals("soy", response.getType());
+        assertEquals("cotton", response.getWickType());
+        assertEquals(3, response.getNumberOfWicks());
+        assertEquals(16, response.getNumberOfOunces());
+        assertEquals(40, response.getHoursOfBurnTime());
+        assertEquals(BURNED, response.getState());
+        assertEquals(false, response.getIsFavorite());
+    }
+
+    @Test
+    public void patch_shouldReturnUpdatedHoursOfBurnTime() {
+        Candle input = new Candle();
+        input.setHoursOfBurnTime(45);
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Candle response = candleService.patch(input, recordWithId.getId());
+        assertEquals("Winter Candy Apple", response.getName());
+        assertEquals("apple, pear, orange", response.getScent());
+        assertEquals("soy", response.getType());
+        assertEquals("cotton", response.getWickType());
+        assertEquals(3, response.getNumberOfWicks());
+        assertEquals(14, response.getNumberOfOunces());
+        assertEquals(45, response.getHoursOfBurnTime());
+        assertEquals(BURNED, response.getState());
+        assertEquals(false, response.getIsFavorite());
+    }
+
+    @Test
+    public void patch_shouldReturnUpdatedState() {
+        Candle input = new Candle();
+        input.setState(NEW);
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Candle response = candleService.patch(input, recordWithId.getId());
+        assertEquals("Winter Candy Apple", response.getName());
+        assertEquals("apple, pear, orange", response.getScent());
+        assertEquals("soy", response.getType());
+        assertEquals("cotton", response.getWickType());
+        assertEquals(3, response.getNumberOfWicks());
+        assertEquals(14, response.getNumberOfOunces());
+        assertEquals(40, response.getHoursOfBurnTime());
+        assertEquals(NEW, response.getState());
+        assertEquals(false, response.getIsFavorite());
+    }
+    @Test
+    public void patch_shouldReturnUpdatedIsFavorite() {
+        Candle input = new Candle();
+        input.setIsFavorite(true);
+        Mockito.when(mockCandleRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
+        Mockito.when(mockCandleRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Candle response = candleService.patch(input, recordWithId.getId());
+        assertEquals("Winter Candy Apple", response.getName());
+        assertEquals("apple, pear, orange", response.getScent());
+        assertEquals("soy", response.getType());
+        assertEquals("cotton", response.getWickType());
+        assertEquals(3, response.getNumberOfWicks());
+        assertEquals(14, response.getNumberOfOunces());
+        assertEquals(40, response.getHoursOfBurnTime());
+        assertEquals(BURNED, response.getState());
+        assertEquals(true, response.getIsFavorite());
+    }
+
+    @Test
+    public void delete_callsRepositoryDeleteMethod() {
+        candleService.delete(id);
+        Mockito.verify(mockCandleRepository).deleteById(id);
+    }
+
+
 }
